@@ -1,0 +1,28 @@
+# data
+data/*
+!data/data_to_predict.csv
+
+# notebooks
+notebooks/*
+!notebooks/*.ipynb
+
+# mlruns
+mlruns
+
+# cache
+scripts/__pycache__
+
+# cloud keys
+cfl-streamlit_aws.pem
+cfl-streamlit_azure.pem
+
+# logs
+log
+*.log
+
+# vscode
+.vscode
+
+# others
+.idea
+requirements.txt
