@@ -11,8 +11,10 @@ pycaret = "==2.3.4"
 pandas = "==1.2.4"
 click = "==7.1.2"
 scikit-learn = "==0.23.2"
-openpyxl = "==3.0.9"
+openpyxl = "*"
 PyYAML = "==5.4.1"
+jupyterlab = "*"
+folium = "*"
 
 [dev-packages]
 yapf = "*"

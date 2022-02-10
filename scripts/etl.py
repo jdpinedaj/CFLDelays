@@ -278,35 +278,54 @@ def etl(config_file):
         #'Idle_Time_Mins_dep',
         'KM_Distance_Event_arriv',  # Be careful, this distance is a virtual distance calculated using haversine method, is not the actual disance of the track...
         'weight_length',
-        'weight_wagon'
+        'weight_wagon',
+        'type_incident',
+        #'dateh_incident',
+        #'lieu',
+        #'statut',
+        #'statut_commercial',
+        #'statut_financier',
+        'gravite',
+        'motif_client',
+        #'commentaire',
     ]]
 
-    data.rename(columns={
-        'Incoterm': 'incoterm',
-        'Max_TEU': 'max_teu',
-        'TEU_Count': 'teu_count',
-        'Max_Length': 'max_length',
-        'Train_Length': 'train_length',
-        'Train_Weight': 'train_weight',
-        'Planned_Departure_DOW': 'planned_departure_day',
-        'Planned_Arrival_DOW': 'planned_arrival_day',
-        'Planned_Arrival': 'planned_arrival',
-        'Depart_Week_Num': 'departure_week_number',
-        'wagon_count': 'wagon_count',
-        'Train_Distance_KM': 'total_distance_trip',
-        'train_tare_weight': 'sum_tares_wagons',
-        'Station_Name_dep': 'departure_station',
-        'Station_Name_arriv': 'arrival_station',
-        'Country_dep': 'departure_country',
-        'Country_arriv': 'arrival_country',
-        'route': 'departure_arrival_route',
-        'Depart_Variance_Mins_dep': 'departure_delay',
-        'Arrive_Variance_Mins_arriv': 'arrival_delay',
-        'KM_Distance_Event_arriv': 'distance_between_control_stations',
-        'weight_length': 'weight_per_length_of_train',
-        'weight_wagon': 'weight_per_wagon_of_train',
-    },
-                inplace=True)
+    data.rename(
+        columns={
+            'Incoterm': 'incoterm',
+            'Max_TEU': 'max_teu',
+            'TEU_Count': 'teu_count',
+            'Max_Length': 'max_length',
+            'Train_Length': 'train_length',
+            'Train_Weight': 'train_weight',
+            'Planned_Departure_DOW': 'planned_departure_day',
+            'Planned_Arrival_DOW': 'planned_arrival_day',
+            'Planned_Arrival': 'planned_arrival',
+            'Depart_Week_Num': 'departure_week_number',
+            'wagon_count': 'wagon_count',
+            'Train_Distance_KM': 'total_distance_trip',
+            'train_tare_weight': 'sum_tares_wagons',
+            'Station_Name_dep': 'departure_station',
+            'Station_Name_arriv': 'arrival_station',
+            'Country_dep': 'departure_country',
+            'Country_arriv': 'arrival_country',
+            'route': 'departure_arrival_route',
+            'Depart_Variance_Mins_dep': 'departure_delay',
+            'Arrive_Variance_Mins_arriv': 'arrival_delay',
+            'KM_Distance_Event_arriv': 'distance_between_control_stations',
+            'weight_length': 'weight_per_length_of_train',
+            'weight_wagon': 'weight_per_wagon_of_train',
+            'type_incident': 'incident_type',
+            #'dateh_incident': 'incident_date',
+            #'lieu': 'incident_location',
+            #'statut': 'incident_status',
+            #'statut_commercial': 'incident_status_commercial',
+            #'statut_financier': 'incident_status_financial',
+            'gravite': 'incident_gravity',
+            'motif_client': 'incident_customer_reason',
+            #'commentaire': 'incident_comment',
+        },
+        inplace=True)
 
     ## Adding time data
 
@@ -346,6 +365,11 @@ def etl(config_file):
 
     df = data.copy()
     df.dropna(subset=['arrival_delay'], inplace=True)
+    df = df.fillna({
+        'incident_type': 'no_incident',
+        'incident_gravity': 'no_incident',
+        'incident_customer_reason': 'no_incident'
+    })
     df.reset_index(drop=True, inplace=True)
 
     ## Dividing dataset in numeric and categorical features
@@ -354,7 +378,8 @@ def etl(config_file):
     cat_features = [
         'incoterm', 'planned_departure_day', 'planned_arrival_day',
         'departure_country', 'arrival_country', 'month_arrival',
-        'arrival_night', 'peak_time'
+        'arrival_night', 'peak_time', 'incident_type', 'incident_gravity',
+        'incident_customer_reason'
     ]
     cat_feat_train_data = df[cat_features]
     cat_feat_train_data = cat_feat_train_data.dropna().reset_index(drop=True)

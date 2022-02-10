@@ -40,7 +40,9 @@ def preparing(config_file):
     logger.info(f"Load config from {config_file}")
     config = parse_config(config_file)
 
-    raw_data_file = config["preparing"]["raw_data_file"]
+    train_data_file = config["preparing"]["train_data_file"]
+    incident_concerne_file = config["preparing"]["incident_concerne_file"]
+    incidents_file = config["preparing"]["incidents_file"]
     processed_path = Path(config["preparing"]["processed_path"])
     logger.info(f"config: {config['preparing']}")
 
@@ -48,7 +50,7 @@ def preparing(config_file):
     # Creating routes
     ##################
     logger.info("-------------------Creating routes-------------------")
-    df = pd.read_excel(raw_data_file)
+    df = pd.read_excel(train_data_file)
 
     station_columns = [col for col in df.columns if 'Station_Name' in col]
     routes_data = df[station_columns]
@@ -72,7 +74,47 @@ def preparing(config_file):
     ##################
     logger.info(
         "-------------------Start data transformation-------------------")
-    train_data = pd.read_excel(raw_data_file)
+    # traindata
+    traindata = pd.read_excel(train_data_file)
+
+    # incident_concerne
+    incident_concerne = pd.read_excel(incident_concerne_file)
+    incident_concerne.columns = incident_concerne.columns.str.strip(
+    ).str.lower()
+    incident_concerne = incident_concerne[[
+        'idincident', 'idtrain_lot', 'annule_trainlot'
+    ]]
+    incident_concerne = incident_concerne.drop_duplicates(subset='idincident',
+                                                          keep='first')
+    incident_concerne = incident_concerne[incident_concerne['annule_trainlot']
+                                          == 1]
+    incident_concerne = incident_concerne.drop(columns=['annule_trainlot'])
+
+    # incidents
+    incidents = pd.read_excel(incidents_file)
+    incidents.columns = incidents.columns.str.strip().str.lower()
+    incidents = incidents[[
+        'idincident', 'idgare', 'type_incident', 'dateh_incident', 'lieu',
+        'statut', 'statut_commercial', 'statut_financier', 'gravite',
+        'motif_client', 'commentaire'
+    ]]
+
+    # Merging incident data
+    df_incidents = incident_concerne.merge(incidents,
+                                           on=['idincident'],
+                                           how='left')
+
+    # Remove rows that do not have data either in idtrain_lot and in idgare, because it is not possible to merge with train_data_final
+    #df_incidents = df_incidents.dropna(subset=['idtrain_lot', 'idgare'], how='all') # I will use this if I find a way to consider also idgare, and not the next two lines
+    df_incidents = df_incidents.dropna(subset=['idtrain_lot'])
+    df_incidents = df_incidents.drop(columns=['idgare'])
+
+    # Merging train_data final with incidents using idtrain_lot
+    train_data = traindata.merge(df_incidents,
+                                 left_on=['IDTRAIN_LOT'],
+                                 right_on=['idtrain_lot'],
+                                 how='left')
+    train_data = train_data.drop(columns=['idtrain_lot'])
 
     # train_tare_weight
     cols_to_sum_tare = [
