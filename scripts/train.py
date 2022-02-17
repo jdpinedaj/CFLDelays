@@ -24,7 +24,7 @@ def train(config_file):
     ##################
     # configure logger
     ##################
-    logger = set_logger("./log/train.log")
+    logger = set_logger("./script_logs/train.log")
 
     ##################
     # Load config from config file

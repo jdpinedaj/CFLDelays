@@ -32,7 +32,7 @@ def preparing(config_file):
     ##################
     # configure logger
     ##################
-    logger = set_logger("./log/preparing.log")
+    logger = set_logger("./script_logs/preparing.log")
 
     ##################
     # Load config from config file

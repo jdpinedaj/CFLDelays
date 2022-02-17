@@ -23,6 +23,8 @@ cfl-streamlit_aws.pem
 cfl-streamlit_azure.pem
 
 # logs
+script_logs/*
+!script_logs/.gitkeep
 log
 *.log
 
