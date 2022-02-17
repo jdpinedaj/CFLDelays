@@ -1,16 +1,19 @@
 # data
 data/*
-!data/data_to_predict.csv
+predict/*
+!predict/data_to_predict.csv
 
 # notebooks
 notebooks/*
 !notebooks/*.ipynb
+*.ipynb_checkpoints
 
 # mlruns
 mlruns
 
 # cache
 scripts/__pycache__
+__pycache__
 
 # cloud keys
 cfl-streamlit_aws.pem

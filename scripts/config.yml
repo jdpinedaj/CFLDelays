@@ -14,6 +14,6 @@ train:
 
 predict:
   model_path: "model/lightgbm_regression"
-  processed_test: "data/data_to_predict.csv"
-  predicted_file: "data/data_predicted.csv"
+  processed_test: "predict/data_to_predict.csv"
+  predicted_file: "predict/data_predicted.csv"
   export_result: True

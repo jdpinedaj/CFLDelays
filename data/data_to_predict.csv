@@ -1,4 +1,0 @@
-teu_count,train_length,train_weight,wagon_count,total_distance_trip,departure_delay,distance_between_control_stations
-60,550,1200,15,650,30,70
-50,500,1100,14,700,35,75
-40,540,1050,12,750,40,80
