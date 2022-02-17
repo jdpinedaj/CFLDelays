@@ -10,14 +10,17 @@ In addition, it includes an streamlit app in order to run a web-service for the 
 ### 1. Prerequisites
 To be able to run this app, you need to have:
 * [Python 3.8](https://www.python.org/downloads/)
-* Install pipenv
+* Install pipenv:
 ```
 sudo apt install pipenv
 ```
-* Run the code using the pipenv shell:
+* Activate the pipenv shell:
 ```
 pipenv shell
-&& pipenv install --skip-lock
+```
+* Then, install the dependencies:
+```
+pipenv install --skip-lock
 ```
 
 ### 2. Run
