@@ -13,8 +13,8 @@ To be able to run this app, you need to have:
 * Run the code using the pipenv shell:
 ```
 sudo apt install pipenv
-&& pipenv shell
-&& pipenv install --skip-lock
+pipenv shell
+pipenv install --skip-lock
 ```
 
 ### 2. Run
@@ -22,7 +22,7 @@ Once the configuration is complete, it's time to run this app.
 Simply run the following command lines below in a terminal:
 ```
 pipenv run python ./scripts/preparing.py
-&& pipenv run python ./scripts/etl.py
-&& pipenv run python ./scripts/train.py
-&& pipenv run python ./scripts/predict.py
+pipenv run python ./scripts/etl.py
+pipenv run python ./scripts/train.py
+pipenv run python ./scripts/predict.py
 ```

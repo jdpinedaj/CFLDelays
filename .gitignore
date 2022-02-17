@@ -1,6 +1,8 @@
 # data
 data/*
-!data/.gitkeep
+!data/train_data_final.xlsx
+!data/incidents.xlsx
+!data/incident_concerne.xlsx
 predict/*
 !predict/data_to_predict.csv
 
