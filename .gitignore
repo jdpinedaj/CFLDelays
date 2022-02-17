@@ -31,13 +31,6 @@ logs
 # vscode
 .vscode
 
-# Docker
-docker-compose.yaml
-Dockerfile
-dags/*
-logs
-plugins
-
 # others
 .idea
 requirements.txt
