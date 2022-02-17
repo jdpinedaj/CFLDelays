@@ -279,14 +279,14 @@ def etl(config_file):
         'KM_Distance_Event_arriv',  # Be careful, this distance is a virtual distance calculated using haversine method, is not the actual disance of the track...
         'weight_length',
         'weight_wagon',
-        'type_incident',
+        #'type_incident',
         #'dateh_incident',
         #'lieu',
         #'statut',
         #'statut_commercial',
         #'statut_financier',
-        'gravite',
-        'motif_client',
+        #'gravite',
+        #'motif_client',
         #'commentaire',
     ]]
 
@@ -315,14 +315,14 @@ def etl(config_file):
             'KM_Distance_Event_arriv': 'distance_between_control_stations',
             'weight_length': 'weight_per_length_of_train',
             'weight_wagon': 'weight_per_wagon_of_train',
-            'type_incident': 'incident_type',
+            #'type_incident': 'incident_type',
             #'dateh_incident': 'incident_date',
             #'lieu': 'incident_location',
             #'statut': 'incident_status',
             #'statut_commercial': 'incident_status_commercial',
             #'statut_financier': 'incident_status_financial',
-            'gravite': 'incident_gravity',
-            'motif_client': 'incident_customer_reason',
+            #'gravite': 'incident_gravity',
+            #'motif_client': 'incident_customer_reason',
             #'commentaire': 'incident_comment',
         },
         inplace=True)
@@ -365,21 +365,26 @@ def etl(config_file):
 
     df = data.copy()
     df.dropna(subset=['arrival_delay'], inplace=True)
-    df = df.fillna({
-        'incident_type': 'no_incident',
-        'incident_gravity': 'no_incident',
-        'incident_customer_reason': 'no_incident'
-    })
+    #df = df.fillna({
+    #    'incident_type': 'no_incident',
+    #    'incident_gravity': 'no_incident',
+    #    'incident_customer_reason': 'no_incident'
+    #})
     df.reset_index(drop=True, inplace=True)
 
     ## Dividing dataset in numeric and categorical features
 
     # Categorical features
     cat_features = [
-        'incoterm', 'planned_departure_day', 'planned_arrival_day',
-        'departure_country', 'arrival_country', 'month_arrival',
-        'arrival_night', 'peak_time', 'incident_type', 'incident_gravity',
-        'incident_customer_reason'
+        'incoterm',
+        'planned_departure_day',
+        'planned_arrival_day',
+        'departure_country',
+        'arrival_country',
+        'month_arrival',
+        'arrival_night',
+        'peak_time',
+        #'incident_type', 'incident_gravity', 'incident_customer_reason'
     ]
     cat_feat_train_data = df[cat_features]
     cat_feat_train_data = cat_feat_train_data.dropna().reset_index(drop=True)

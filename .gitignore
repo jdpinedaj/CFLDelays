@@ -25,11 +25,18 @@ cfl-streamlit_azure.pem
 # logs
 script_logs/*
 !script_logs/.gitkeep
-log
+logs
 *.log
 
 # vscode
 .vscode
+
+# Docker
+docker-compose.yaml
+Dockerfile
+dags/*
+logs
+plugins
 
 # others
 .idea
